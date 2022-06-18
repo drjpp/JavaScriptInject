@@ -2170,3 +2170,93 @@ window.WAPI.sendMessageOptions = async function (chatId, content, options = {}) 
   
     return newMsgId._serialized;
 };
+
+
+//-------------------------------------------------------------------
+//220618
+
+function searchMessage(phoneID, msgID=''){
+
+  // Carrega todas as mensagens, se houver 
+  let chat = window.Store.Chat.get(phoneID);
+
+  //Define objeto de retorno 
+  let r = {
+    //Telefone de destino
+    phoneID: phoneID,
+
+    //Status do chat de destino 
+    phoneArchive: false,
+
+    //ID da mensagem
+    msgID:   msgID,
+
+    //Status da mensagem
+    msgAkt:  0, 
+
+    //Método de procura 0=Total 1=Parcial
+    method:  0, 
+
+    //Informa se a mensagem foi encontrada
+    found:   false,
+
+    //Dados da mensagem para verificação
+    body:   '',
+
+    //Dados da pesquisa
+    value:   '',
+
+  };
+
+  //Dados não informados ou inexistentes, retorna vazio
+  if( chat == null || phoneID == ''){ 
+    return r;
+  }
+  else{
+    r.found = true;
+    r.value = chat;
+    r.phoneArchive = chat.archive;
+   
+    //Verifica se a ID da mensagem foi informada
+    if(msgID != ''){
+
+      r.value = '';
+      r.found = false;
+    
+      chat.msgs.filter((f) => {
+        if(f.id.id == msgID){
+          r.value = f;
+          r.found = true;
+          r.msgAkt = f.ack;
+          r.body = f.body;
+          }
+        }
+        
+      );
+    };
+
+    return r;
+  
+  };
+};
+
+
+
+function sendMessageChat(chatid, msgText) {
+    var idUser = new window.Store.UserConstructor(chatid, {
+        intentionallyUsePrivateConstructor: true
+    });
+
+    const teste = Store.FindChat.findChat(idUser)
+        .then(chatid => {
+            var mc = new Store.SendTextMsgToChat(chatid, msgText).then((x)=>{
+                SetConsoleMessage('OnAfterSendMessage', JSON.stringify({'msgs':chatid.msgs}));
+            });                      
+            
+            return true;
+        });
+
+    return teste
+
+};
+
