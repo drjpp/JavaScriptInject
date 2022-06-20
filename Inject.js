@@ -1,5 +1,5 @@
 //Version_JS;Version_TInjectMin;Version_CEF4Min;
-//2.2.1.0;2.0.0.9;78.3.0
+//2.2.0.0;2.0.0.9;78.3.0
 //
 //
 
@@ -2175,7 +2175,7 @@ window.WAPI.sendMessageOptions = async function (chatId, content, options = {}) 
 //-------------------------------------------------------------------
 //220618
 
-function searchMessage(phoneID, msgID=''){
+function searchMessage(phoneID, msgID='', msgOutID='OnGetMessage'){
 
   // Carrega todas as mensagens, se houver 
   let chat = window.Store.Chat.get(phoneID);
@@ -2235,7 +2235,8 @@ function searchMessage(phoneID, msgID=''){
       );
     };
     
-    SetConsoleMessage('OnGetMessage', JSON.stringify({'result':r}));
+    SetConsoleMessage(msgOutID, JSON.stringify({'result':r}));
+
     return r;
   
   };
