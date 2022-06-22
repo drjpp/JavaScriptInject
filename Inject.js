@@ -267,13 +267,13 @@ window.WAPI._serializeMessageObj = (obj) => {
     if(obj.quotedMsg) obj.quotedMsgObj();
     return Object.assign(window.WAPI._serializeRawObj(obj), {
         id: obj.id._serialized,
-        //add 02/06/2020 mike -->
+        //add 02/06/2020  -->
 		quotedParticipant: obj.quotedParticipant? obj.quotedParticipant._serialized ? obj.quotedParticipant._serialized : undefined : undefined,
         author: obj.author? obj.author._serialized ? obj.author._serialized : undefined : undefined,
         chatId: obj.chatId? obj.chatId._serialized ? obj.chatId._serialized : undefined : undefined,
         to: obj.to? obj.to._serialized ? obj.to._serialized : undefined : undefined,
         fromMe: obj.id.fromMe,
-		//add 02/06/2020 mike <--
+		//add 02/06/2020  <--
 		
 		sender: obj["senderObj"] ? WAPI._serializeContactObj(obj["senderObj"]) : null,
         timestamp: obj["t"],
@@ -902,7 +902,7 @@ window.WAPI.isLoggedIn = function(done) {
     return isLogged;
 };
 
-//Funcao para saber o status do servico - Mike 26/02/2020
+//Funcao para saber o status do servico - 26/02/2020
 window.WAPI.isConnected = function (done) {
     const isConnected = document.querySelector('*[data-icon="alert-phone"]') !== null ? false : true;
 
@@ -1052,52 +1052,10 @@ window.WAPI.ReplyMessage = function(idMessage, message, done) {
     }
 };
 
-//Funcao desativada em 27/11/2019 by Mike
-/*window.WAPI.sendMessageToID = function (id, message, done) {
-try {
-window.getContact = (id) => {
-return Store.WapQuery.queryExist(id);
-}
-window.getContact(id).then(contact => {
-if (contact.status === 404) {
-done(true);
-} else {
-Store.FindChat.findChat(contact.jid).then(chat => {
-chat.sendMessage(message);
-return true;
-}).catch(reject => {
-if (WAPI.sendMessage(id, message)) {
-done(true);
-return true;
-}else{
-done(false);
-return false;
-}
-});
-}
-});
-} catch (e) {
-if (window.Store.Chat.length === 0)
-return false;
+//Funcao desativada em 27/11/2019 
 
-firstChat = Store.Chat.models[0];
-var originalID = firstChat.id;
-firstChat.id = typeof originalID === "string" ? id : new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
-if (done !== undefined) {
-firstChat.sendMessage(message).then(function () {
-firstChat.id = originalID;
-done(true);
-});
-return true;
-} else {
-firstChat.sendMessage(message);
-firstChat.id = originalID;
-return true;
-}
-}
 if (done !== undefined) done(false);
 return false;
-} */
 
 window.WAPI.sendMessage = function(id, message, done) {
     var chat = WAPI.getChat(id);
@@ -1162,7 +1120,7 @@ window.WAPI.sendMessage2 = function(id, message, done) {
     return false;
 };
 
-//Funcao adicionada em 18/06/2020 by Mike
+//Funcao adicionada em 18/06/2020 
 window.WAPI.sendSeen = async function (id) {
     if (!id) return false;
     var chat = window.WAPI.getChat(id);
@@ -1174,26 +1132,7 @@ window.WAPI.sendSeen = async function (id) {
 };
 
 /*
-//Apos receber uma mensagem, e nao responder, essa funcao nao funciona de forma isolada
-window.WAPI.sendSeen = function(id, done) {
-    var chat = window.WAPI.getChat(id);
-    if (chat !== undefined) {
-        if (done !== undefined) {
-            Store.SendSeen(Store.Chat.models[0], false).then(function() {
-                done(true);
-            });
-            return true;
-        } else {
-            Store.SendSeen(Store.Chat.models[0], false);
-            return true;
-        }
-    }
-    if (done !== undefined) done();
-    return false;
-}; */
-
-/*
-//Alterado em 20/02/2020 Creditos: by Lucas
+//Alterado em 20/02/2020 
 //Apos receber uma mensagem, e nao responder, essa funcao funciona de forma isolada
 window.WAPI.sendSeen = function(id, done) {
     let chat = window.WAPI.getChat(id);
@@ -1289,7 +1228,7 @@ window.WAPI.getUnreadMessages = function(includeMe, includeNotifications, use_un
 
     }
 	
-	//mike teste 16/02/2021 tentativa de retornar imagem de perfil
+	//16/02/2021 tentativa de retornar imagem de perfil
     SetConsoleMessage("getUnreadMessages", JSON.stringify(output));
     return output;
 };
@@ -1577,7 +1516,7 @@ window.WAPI.sendImage = function(imgBase64, chatid, filename, caption) {
             var mc = new Store.MediaCollection(chat);
             
     
-            //New - Mike Lustosa 07/06/2022
+            //New - 07/06/2022
             mc.processAttachments([{file: mediaBlob}, 1], chat, 1).then(() => {
                 let media = mc._models[0];
                 media.sendToChat(chat, {caption:caption});
@@ -1849,7 +1788,7 @@ window.WAPI.demoteParticipant = async function (idGroup, idParticipant) {
 }
 
 //Nova funcao alternativa para enviar mensagens(Nao envia para grupos)
-//Criada em 27/11/2019 Mike
+//Criada em 27/11/2019 
 window.WAPI.sendMessageToID2 = function(id, msgText) {
     
     window.Store.WapQuery.queryExist(id).then(function(e) {
@@ -1883,7 +1822,7 @@ window.WAPI.isValidNumber = async function (phoneId) {
     return isValid;
 };
 
-/** 28/04/2020 - Mike
+/** 28/04/2020 
  * Send location
  *
  * @param {string} chatId '558199999999@c.us'
